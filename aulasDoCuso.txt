@@ -1,0 +1,6 @@
+12/11/2025 23:48
+--parei na aula - Mostrar erros nos inputs e mostrar os Dados(usando old)
+--foi aprendido 
+    --os a diretiva @erros
+        @erro('name do input')
+    --função old('name do input');
