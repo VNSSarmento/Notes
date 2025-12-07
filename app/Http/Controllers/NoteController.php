@@ -2,33 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Note;
-use Hamcrest\Description;
-use Illuminate\Contracts\Encryption\DecryptException;
+use App\Services\Operations;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Redirect;
 
 class NoteController extends Controller
 {
-    public function index(){
-        $notes = Note::with('User')
-                    ->where('id_user',session('user.id'))
-                    ->get();
+    public function index()
+    {   
+        
+        /* $notes = Note::with('User')
+            ->where('id_user', session('user.id'))
+            ->get(); */
     }
 
-     public function create(Request $request)
+    public function create(Request $request)
     {
         $validated = $request->validate(
             [
-                'category' => 'required|string|max:20',
+                'category' => 'required|string',
                 'title' => 'required|string',
-                'content' => 'required|string'
+                'content' => 'required|string|min:10'
             ],
             [
                 'category.required' => 'Insira a categoria da sua nota',
                 'title.required'    => 'Insira o título da sua nota',
                 'content.required'  => 'Insira o conteúdo da sua nota',
+                'content.min' => 'o conteúdo precisa ter mais de :max caracteres'
+                //se eu quiser colocar um validador apara caracter, eu posso colocar => 'a quatidade de caracter tem que ser no minimo :min caracteres' 
+                //esse min: vai trazer a quantidade que ta la em cima EX 'required|string|min: 30
             ]
         );
 
@@ -42,27 +45,22 @@ class NoteController extends Controller
         return redirect()->back()->with('success', 'Nota criada com sucesso!');
     }
 
-    public function destroy($id){
-        try{
-            
-            $id = Crypt::decrypt($id);
-        }
-        catch(DecryptException $e){   
-           return redirect()->route('home');
-        }
+    public function destroy($id)
+    {
+        $id = Operations::decrypt($id);
+        
+        $notes = Note::findOrFail($id);
+        $notes->delete();
 
+        return redirect()->route('home')->with('deleteNote', 'Nota excluida com sucesso!');
+
+    }
+
+    public function edit($id)
+    {
         $note = Note::findOrFail($id);
-        $note->delete();
-        return redirect()->route('home')->with('deleteNote','Nota excluida com sucesso!');
+        return response()->json(['note' => $note, 'category' => $note->id_category]);
+     
     }
-    
-    public function edit($id){
-        try{
-            $id = Crypt::decrypt($id);
-            
-        }catch(DecryptException $e){
-            
-            return redirect()->route('home')->with('editNote','Nota Editada com sucesso!');
-        }
-    }
+
 }

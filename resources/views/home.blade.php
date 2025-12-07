@@ -13,16 +13,16 @@
         </div>
 
         <div class="mb-8 flex flex-wrap gap-4 border-b border-gray-500">
-            <button class="mb-3 bg-white/10  backdrop-blur-md text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition duration-200 border border-white/20 flex items-center space-x-2">
+            <a href="{{ route('home')}}" class="mb-3 bg-white/10  backdrop-blur-md text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition duration-200 border border-white/20 flex items-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
                 </svg>
                 <span>Filtrar</span>
-            </button>
-            @foreach ($categorias as $cat)
-            <button class="mb-3 bg-white/10  backdrop-blur-md text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition duration-200 border border-white/20 flex items-center space-x-2">
-                <span>{{$cat->name}}</span>
-                @endforeach
+            </a>
+            @foreach ($categoryNotes as $cat)
+            <a href="{{ route('home',['category' => $cat->id]) }}" class="mb-3 bg-white/10  backdrop-blur-md text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition duration-200 border border-white/20 flex items-center space-x-2">
+                <span>{{$cat->name}}</span></a>
+            @endforeach
         </div>
 
         @if(session('success'))
@@ -56,7 +56,7 @@
             @include('note')
 
             @endforeach
-    </div>
+        </div>
     </div>
 
     @include('modal')

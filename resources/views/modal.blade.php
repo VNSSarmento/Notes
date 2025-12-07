@@ -33,9 +33,9 @@
                     border-red-500 ring-red-500 focus:border-red-500 focus:ring-red-500
                     @enderror
                     w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition">
-                    <option value="">Selecione uma categoria</option>
+                    <option id="categoria" value="">Selecione uma categoria</option>
                     @foreach ($categorias as $categoria)
-                    <option value="{{ $categoria->id }}">{{ $categoria->name }}</option>
+                    <option value="{{ $categoria->id }}" {{ old('category') == $categoria->id ? 'selected' : '' }}>{{ $categoria->name }}</option>
                     @endforeach
                 </select>
                 @error('category')
@@ -52,6 +52,7 @@
                     type="text"
                     id="titulo"
                     name="title"
+                    value="{{ old('title') }}"
                     placeholder="Digite o título da anotação"
                     class="
                     @error('title')
@@ -73,14 +74,13 @@
                     id="conteudo"
                     name="content"
                     rows="8"
-                    value="{{ old('content') }}"
                     placeholder="Escreva o conteúdo da sua anotação..."
                     class="
                     @error('content')
                     border-red-500 ring-red-500 focus:border-red-500 focus:ring-red-500
                     @enderror
                     w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition resize-none"
-                    required></textarea>
+                    required> {{ old('content') }}</textarea>
                 <p class="text-xs text-gray-500 mt-2">Dica: Use formatação markdown para melhor organização</p>
                 @error('content')
                 <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg" role="alert">
@@ -108,7 +108,17 @@
             </div>
         </form>
     </div>
+    @if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            openModal();
+        });
+    </script>
+    @endif
+
 </div>
+
+
 
 <script>
     function openModal() {
@@ -138,5 +148,24 @@
             closeModal();
         }
     });
+
+    async function editNote(id) {
+
+        const response = await fetch(`/notes/edit/${id}`);
+        const data = await response.json();
+
+        document.getElementById('titulo').value = data.note.title;
+        document.getElementById('conteudo').value = data.note.content;
+        document.getElementById('categoria').value = data.category;
+
+        const form = document.querySelector('#noteModal form');
+        form.action = `/notes/${id}`;
+
+        if (!document.querySelector('#_method')) {
+            form.insertAdjacentHTML('afterbegin', '<input type="hidden" id="_method" name="_method" value="PUT">');
+        }
+
+        openModal();
+    }
 </script>
 </div>
