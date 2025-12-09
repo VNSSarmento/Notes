@@ -39,10 +39,18 @@
         <p class="text-gray-600 text-sm line-clamp-3 mb-4">{{ $note->content }}</p>
 
         <div class="flex items-center justify-between text-xs text-gray-400 pt-4 border-t border-gray-100">
-            @if ($note->diferencaDeDias() > 1)
-            <span>{{ floor($note->diferencaDeDias()) }} dias atrás</span>
+            @if ($note->created_at != $note->updated_at)
+                @if ($note->diferencaDeDias() > 1)
+                <span> Atualizado a {{ floor($note->diferencaDeDias()) }} dias atrás</span>
+                @else
+                <span>Atualizado Hoje</span>
+                @endif
             @else
-            <span>Hoje</span>
+                @if ($note->diferencaDeDias() > 1)
+                <span>{{ floor($note->diferencaDeDias()) }} dias atrás</span>
+                @else
+                <span>Hoje</span>
+                @endif
             @endif
 
             <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full text-xs font-medium">

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Note;
 use App\Services\Operations;
 use Illuminate\Http\Request;
@@ -15,9 +14,9 @@ class NoteController extends Controller
         /* $notes = Note::with('User')
             ->where('id_user', session('user.id'))
             ->get(); */
-    }
+}
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate(
             [
@@ -61,6 +60,35 @@ class NoteController extends Controller
         $note = Note::findOrFail($id);
         return response()->json(['note' => $note, 'category' => $note->id_category]);
      
+    }
+
+    public function update(Request $request,$id){
+            
+            $validated = $request->validate(
+            [
+                'category' => 'required|string',
+                'title' => 'required|string',
+                'content' => 'required|string|min:10'
+            ],
+            [
+                'category.required' => 'Insira a categoria da sua nota',
+                'title.required'    => 'Insira o título da sua nota',
+                'content.required'  => 'Insira o conteúdo da sua nota',
+                'content.min' => 'o conteúdo precisa ter mais de :max caracteres'
+            ]
+        );
+
+        if(empty($id)){
+            redirect()->route('home');
+        };
+
+        $note = Note::findOrFail($id);
+
+        $noteUpdate = $validated;
+
+        $note->update($noteUpdate);
+
+        return redirect()->back()->with('noteUpdate','Sua nota foi atualizada com sucesso!');
     }
 
 }

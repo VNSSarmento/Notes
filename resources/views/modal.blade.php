@@ -20,8 +20,9 @@
         </div>
 
         <!-- Modal Body -->
-        <form class="p-6 space-y-6" method="post" action="{{ route('notes.create') }}">
+        <form id="formNote" class="p-6 space-y-6" method="post" action="{{ route('notes.store') }}">
             @csrf
+            <input id="noteId" type="hidden" name="note_id">
             <!-- Categoria -->
             <div>
                 <label for="categoria" class="block text-sm font-medium text-gray-700 mb-2">Categoria</label>
@@ -154,12 +155,13 @@
         const response = await fetch(`/notes/edit/${id}`);
         const data = await response.json();
 
+        document.getElementById('noteId').value = data.note.id;
         document.getElementById('titulo').value = data.note.title;
         document.getElementById('conteudo').value = data.note.content;
         document.getElementById('categoria').value = data.category;
 
-        const form = document.querySelector('#noteModal form');
-        form.action = `/notes/${id}`;
+        const form = document.getElementById('formNote');
+        form.action = `notes/update/${id}`;
 
         if (!document.querySelector('#_method')) {
             form.insertAdjacentHTML('afterbegin', '<input type="hidden" id="_method" name="_method" value="PUT">');

@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Note extends Model
 {
     /** @use HasFactory<\Database\Factories\NoteFactory> */
     use HasFactory;
+    use SoftDeletes;
 
         protected $fillable = [
         'id_category',
@@ -18,7 +20,7 @@ class Note extends Model
     ];
 
     public function diferencaDeDIas(){
-        return $this->created_at->diffInDays(now());
+        return $this->updated_at->diffInDays(now());
     }
 
     public function user(){

@@ -19,7 +19,7 @@
                     <div class="relative">
                         <button class="flex items-center space-x-2 text-white hover:text-indigo-200 transition">
                             <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
-                                <span class="text-sm font-semibold">U</span>
+                                <span class="text-sm font-semibold">{{ strtoupper(substr(session('user.name'),0,1)) }}</span>
                             </div>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
