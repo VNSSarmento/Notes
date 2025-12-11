@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 class NoteController extends Controller
 {
     public function index()
-    {   
-        
+    {
+
         /* $notes = Note::with('User')
             ->where('id_user', session('user.id'))
             ->get(); */
-}
+    }
 
     public function store(Request $request)
     {
@@ -47,24 +47,24 @@ class NoteController extends Controller
     public function destroy($id)
     {
         $id = Operations::decrypt($id);
-        
+
         $notes = Note::findOrFail($id);
+        //usar $notes->forceDelete() se eu quiser utilizar os deletes de verdade, se ser softdelete
         $notes->delete();
 
         return redirect()->route('home')->with('deleteNote', 'Nota excluida com sucesso!');
-
     }
 
     public function edit($id)
     {
         $note = Note::findOrFail($id);
         return response()->json(['note' => $note, 'category' => $note->id_category]);
-     
     }
 
-    public function update(Request $request,$id){
-            
-            $validated = $request->validate(
+    public function update(Request $request, $id)
+    {
+
+        $validated = $request->validate(
             [
                 'category' => 'required|string',
                 'title' => 'required|string',
@@ -78,7 +78,7 @@ class NoteController extends Controller
             ]
         );
 
-        if(empty($id)){
+        if (empty($id)) {
             redirect()->route('home');
         };
 
@@ -88,7 +88,6 @@ class NoteController extends Controller
 
         $note->update($noteUpdate);
 
-        return redirect()->back()->with('noteUpdate','Sua nota foi atualizada com sucesso!');
+        return redirect()->back()->with('noteUpdate', 'Sua nota foi atualizada com sucesso!');
     }
-
 }

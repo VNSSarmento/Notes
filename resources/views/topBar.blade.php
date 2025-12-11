@@ -11,11 +11,6 @@
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <button class="text-white hover:text-indigo-200 transition">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
                     <div class="relative">
                         <button class="flex items-center space-x-2 text-white hover:text-indigo-200 transition">
                             <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">

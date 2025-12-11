@@ -1,4 +1,7 @@
 @extends('layout.main')
+@section('title')
+Login
+@endsection
 @section('content')
 <div class="bg-gradient-to-br from-black to-indigo-800 min-h-screen flex items-center justify-center p-4">
 <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
