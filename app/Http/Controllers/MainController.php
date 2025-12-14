@@ -33,7 +33,6 @@ class MainController extends Controller
 
         $notes =  $notes->Paginate(7);
 
-
         return view('home', compact('categorias', 'notes', 'categoryNotes'));
     
     }
