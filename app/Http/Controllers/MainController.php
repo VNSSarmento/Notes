@@ -7,10 +7,11 @@ use App\Models\Note;
 use App\Models\User;
 use App\Services\Operations;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class MainController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $id = session('user.id');
 
@@ -32,8 +33,9 @@ class MainController extends Controller
         $categorias = Category::all();
 
         $notes =  $notes->Paginate(7);
-
+        
         return view('home', compact('categorias', 'notes', 'categoryNotes'));
     
     }
+
 }

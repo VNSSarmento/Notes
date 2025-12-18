@@ -25,6 +25,7 @@ Route::middleware([ Authication::class])->group(
             Route::delete('/destroy/{id}',[NoteController::class,'destroy'])->name('notes.delete');
             Route::get('/edit/{id}',[NoteController::class,'edit'])->name('notes.edit');
             Route::put('/update/{id}',[NoteController::class,'update'])->name('notes.update');
+            Route::get('/show/{id}',[NoteController::class,'show'])->name('notes.show');
         });
     }
 );

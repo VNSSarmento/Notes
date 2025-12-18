@@ -129,5 +129,6 @@ Home
 </div>
 
 @include('modal')
+@include('modalContent')
 
 @endsection

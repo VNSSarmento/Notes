@@ -24,7 +24,7 @@
                 x-transition
                 class="absolute right-4 top-12 w-32 bg-white rounded-lg shadow-lg border z-50">
                 <button onclick="editNote({{ $note->id }})"  class="w-full text-left block px-4 py-2 hover:bg-gray-100">Editar</button>
-                <a href="" class="block px-4 py-2 hover:bg-gray-100">Visualizar</a>
+                <button onclick="viewNote({{ $note->id }})" class="w-full text-left block px-4 py-2 hover:bg-gray-100">Visualizar</a>
                 <form method="POST" action="{{ route('notes.delete',['id' => Crypt::encrypt($note->id)]) }}" onsubmit="return confirm('Tem certeza que deseja excluir essa nota?')">
                 @csrf
                 @method('DELETE')

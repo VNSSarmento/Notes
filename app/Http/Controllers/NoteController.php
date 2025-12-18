@@ -8,13 +8,7 @@ use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
-    public function index()
-    {
-
-        /* $notes = Note::with('User')
-            ->where('id_user', session('user.id'))
-            ->get(); */
-    }
+    public function index() {}
 
     public function store(Request $request)
     {
@@ -67,7 +61,7 @@ class NoteController extends Controller
         $validated = $request->validate(
             [
                 'category' => 'required|string',
-                'title' => 'required|string',
+                'title' => 'required',
                 'content' => 'required|string|min:10'
             ],
             [
@@ -85,9 +79,21 @@ class NoteController extends Controller
         $note = Note::findOrFail($id);
 
         $noteUpdate = $validated;
+        $note['id_category'] = $request->input('category');
 
         $note->update($noteUpdate);
 
         return redirect()->back()->with('noteUpdate', 'Sua nota foi atualizada com sucesso!');
+    }
+
+    public function show($id)
+    {
+        $note = Note::with('category')
+            ->findOrFail($id);
+
+        return response()->json([
+            'notes' => $note,
+            'category' => $note->category
+        ]);
     }
 }
