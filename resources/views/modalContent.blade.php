@@ -20,9 +20,7 @@
             </div>
         </div>
 
-        <!-- Modal Body -->
         <div class="p-6 space-y-6">
-            <!-- Categoria -->
             <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-4 border border-indigo-100">
                 <div class="flex items-center space-x-2 mb-2">
                     <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,7 +31,6 @@
                 <p id="viewNoteCategory" class="text-lg font-medium text-indigo-700"></p>
             </div>
 
-            <!-- Conteúdo -->
             <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
                 <div class="flex items-center space-x-2 mb-3">
                     <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,7 +41,6 @@
                 <div id="viewNoteContent" class="text-gray-800 leading-relaxed whitespace-pre-wrap break-words"></div>
             </div>
 
-            <!-- Data de Criação -->
             <div class="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg border border-gray-200">
                 <div class="flex items-center space-x-2">
                     <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +51,6 @@
                 <span id="viewNoteCreatedAt" class="text-sm font-medium text-gray-600"></span>
             </div>
 
-            <!-- Botões de Ação -->
             <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200">
                 <button
                     type="button"
@@ -95,14 +90,12 @@
         currentNoteId = null;
     }
 
-    // Fechar modal ao clicar fora
     document.getElementById('viewNoteModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeViewModal();
         }
     });
 
-    // Fechar modal com tecla ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && !document.getElementById('viewNoteModal').classList.contains('hidden')) {
             closeViewModal();
@@ -116,12 +109,10 @@
 
             currentNoteId = id;
 
-            // Preencher os dados no modal
             document.getElementById('viewNoteTitle').textContent = data.notes.title;
             document.getElementById('viewNoteCategory').textContent = data.category.name;
             document.getElementById('viewNoteContent').textContent = data.notes.content;
 
-            // Formatar a data
             if (data.notes.updated_at > data.notes.created_at) {
                 const createdAt = new Date(data.notes.updated_at);
                 const formattedDate = createdAt.toLocaleDateString('pt-BR', {
@@ -157,14 +148,13 @@
     async function editNoteFromView() {
         if (currentNoteId) {
             try {
-                // Buscar os dados da nota
+
                 const response = await fetch(`/notes/edit/${currentNoteId}`);
                 const data = await response.json();
 
-                // Fechar modal de visualização
+
                 closeViewModal();
 
-                // Preencher o formulário de edição
                 document.getElementById('noteId').value = data.note.id;
                 document.getElementById('titulo').value = data.note.title;
                 document.getElementById('conteudo').value = data.note.content;
@@ -177,7 +167,6 @@
                     form.insertAdjacentHTML('afterbegin', '<input type="hidden" id="_method" name="_method" value="PUT">');
                 }
 
-                // Abrir modal de edição
                 const modal = document.getElementById('noteModal');
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
